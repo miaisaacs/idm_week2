@@ -171,6 +171,7 @@ sim[,'time']  # use the column name
 sim[sim[,'time']==10, ]
 
 # CODE IT YOURSELF - now get the column for simulated number of Susceptibles
+
 # CODE IT YOURSELF - now get the column for simulated number of Infectious:
 
 
@@ -188,12 +189,16 @@ sim[sim[,'time']==10, ]
 
 # [Q1] CODE IT YOURSELF - what is the number of susceptibles on Day 50? 
 
+sim[sim[,'time']==50, ]
+
 
 # [Q1] CODE IT YOURSELF - what is the number of susceptibles at the end of the simulation? 
 
+tail(sim, 1)
 
 # [Q2] CODE IT YOURSELF - what is the number of Infectious on Day 50? 
 
+sim[sim[,'time']==50, ]
 
 # [Q2] CODE IT YOURSELF - what is the number of Infectious at the end of the simulation? 
 
@@ -204,7 +209,7 @@ sim[sim[,'time']==10, ]
 
 # [Q4] CODE IT YOURSELF - Plot model simulated number of Susceptibles for each day during the simulation period
 
-
+plot(sim)
 
 # [Q4] CODE IT YOURSELF - Plot model simulated number of Infectious for each day over time during the simulation period
 
@@ -223,6 +228,7 @@ cumi = sim[, 'cumI']/N * 100 # %cumulative infections
 # Plot percentage of susceptible population over time
 par(mar=c(3,3,1,1),mgp=c(1.8,.5,0),cex=1.2)
 # show as percentage: 
+plot(x = times, y = s, xlab='Time (days)',ylab='Population Susceptibility (%)',type='l')
 plot(x = times, y = s, xlab='Time (days)',ylab='Population Susceptibility (%)',type='l')
 
 # CODE IT YOURSELF:
