@@ -139,7 +139,7 @@ SIR=function(t,state,parameters){
     list(c(dS, dI, dcumI))
   }) # end with(as.list...)
 }
-
+ 
 # Step 2: specify initial conditions/parameters
 N=1e5; # population size
 I0=10; # initial No. of Infectious people
@@ -209,10 +209,14 @@ sim[sim[,'time']==50, ]
 
 # [Q4] CODE IT YOURSELF - Plot model simulated number of Susceptibles for each day during the simulation period
 
-plot(sim)
+plot(x = sim[, "time"], y = sim[,"S"],xlab='Time (days)',ylab='Number of Susceptibles',type='l', 
+     main = "Number of Susceptibles Across Time")
+
 
 # [Q4] CODE IT YOURSELF - Plot model simulated number of Infectious for each day over time during the simulation period
 
+plot(x = sim[, "time"], y = sim[,"I"],xlab='Time (days)',ylab='Number of Infectious',type='l', 
+     main = "Number of Infectious Across Time")
 
 ################################################################################
 ## PROCESSING AND VISULIZING THE MODEL OUTPUTS
@@ -229,16 +233,23 @@ cumi = sim[, 'cumI']/N * 100 # %cumulative infections
 par(mar=c(3,3,1,1),mgp=c(1.8,.5,0),cex=1.2)
 # show as percentage: 
 plot(x = times, y = s, xlab='Time (days)',ylab='Population Susceptibility (%)',type='l')
-plot(x = times, y = s, xlab='Time (days)',ylab='Population Susceptibility (%)',type='l')
+plot(x = times, y = i, xlab='Time (days)',ylab='Population Infected (%)',type='l')
+
 
 # CODE IT YOURSELF:
 
 # [LQ5] Based on the simulation, What is the population susceptibility (i.e. %S) at the end of simulation? What percentage of the population are infectious at the end of simulation?  What percentage of the population have been infected by the end of simulation?
 
+s[sim[sim[,'time']==100, ]]
+i[sim[sim[,'time']==100, ]]
+cumi[sim[sim[,'time']==100, ]]
 
-# [LQ6] Plot the outputs %I and %S for each day during the simulated time period.
-
-
+# [LQ6] Plot the outputs %I and %S for each day during the simulated time period
+plot(x = times, y = s, xlab='Time (days)',ylab='Population Susceptibility (%)',
+     main = "Percent of Population Susceptible Across 100 Days", type='l')
+plot(x = times, y = i, xlab='Time (days)',ylab='Population Infected (%)',
+     main = "Percent of Population Infected Across 100 Days", type='l')
+plot(x = times, y = cumi, xlab='Time (days)',ylab='Population Cumulative Incidence (%)',type='l')
 
 # Output Processing 2: 
 # Convert the daily outputs to weekly outputs
@@ -250,6 +261,7 @@ out.weekly = matrix(0, # place holder for the actual numbers
 # set column names, so it would be more readable & easier to access to the results
 colnames(out.weekly) = c('Week', 'Number of Susceptibles', 'Number of Infectious', 'Number of New Infections') 
 out.weekly[,'Week'] = 0: (numWk - 1)  # Week column is just the number of week
+
 # Get the number of Susceptibles for 4th day of each week (i.e. middle of the week) - this is sort of a snapshot of the epidemic
 out.weekly[,'Number of Susceptibles'] = c(S0, # use the initial susceptibility for the 1st entry
                                           sim[seq(4, length.out = numWk - 1, by  = tmstep),  # indices of the first day of each week
@@ -266,14 +278,27 @@ out.weekly[,'Number of New Infections'] = c(0, # add a 0 for the start of the 1s
                                             sim[seq(1, length.out = numWk - 1, by  = tmstep), 'cumI']) # cumulative infections on the start of week 1, 2, ...
                                             )  
 
+out.weekly[,'Week'] = 7: (numWk - 1)  # Week column is just the number of week
+
 # CODE IT YOURSELF -
 # [Q7] How many people are infected during Week 7? (0.5pt)
 
+out.weekly[out.weekly[,'Week']==7, ]
+
 # [Q8] Plot number of Susceptibles mid-week over time (0.5pt)
+
+plot(x = out.weekly[, "Week"], y = out.weekly[,"Number of Susceptibles"],xlab='Week',ylab='Number of Susceptibles',type='l', 
+     main = "Number of Susceptibles Across Weeks")
 
 # [Q9] Plot number of Infectious mid-week over time (0.5pt)
 
+plot(x = out.weekly[, "Week"], y = out.weekly[,"Number of Infectious"],xlab='Week',ylab='Number of Infectious',type='l', 
+     main = "Number of Infectious Across Weeks")
+
 # [Q10] Plot number of New Infections each week over time (0.5pt)
+
+plot(x = out.weekly[, "Week"], y = out.weekly[,"Number of New Infections"],xlab='Week',ylab='Number of New Infections',type='l', 
+     main = "Number of New Infections Across Weeks")
 
 
 
